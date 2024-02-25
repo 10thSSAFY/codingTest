@@ -1,43 +1,54 @@
 import java.io.*;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
+    private static int[] solve(int N, int L, int[] A) {
+        int[] result = new int[N];
 
-    public static void main(String[] args) throws IOException {
+        Deque<Integer> deque = new LinkedList<>();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int L = Integer.parseInt(st.nextToken());
-        st = new StringTokenizer(br.readLine());
-        Deque<Node> deque = new LinkedList<>();
-        for (int i = 0; i < N; i++) {
-            int now = Integer.parseInt(st.nextToken());
-
-            while (!deque.isEmpty() && deque.getLast().value > now) {
-                deque.removeLast();
+        for (int i = 0; i < N; ++i) {
+            while (!deque.isEmpty() && deque.peekFirst() < i - L + 1) {
+                deque.pollFirst();
             }
-            deque.addLast(new Node(now, i));
 
-            if (deque.getFirst().index <= i - L) {
-                deque.removeFirst();
+            while (!deque.isEmpty() && A[deque.peekLast()] > A[i]) {
+                deque.pollLast();
             }
-            bw.write(deque.getFirst().value + " ");
+
+            deque.offerLast(i);
+
+            result[i] = A[deque.peekFirst()];
         }
-        bw.flush();
-        bw.close();
+
+        return result;
     }
 
-    static class Node {
-        public int value;
-        public int index;
+    public static void main(String[] args) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        Node(int value, int index) {
-            this.value = value;
-            this.index = index;
+        StringTokenizer st = new StringTokenizer(in.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
+        int L = Integer.parseInt(st.nextToken());
+
+        int[] A = new int[N];
+
+        st = new StringTokenizer(in.readLine());
+
+        for (int i = 0; i < N; ++i) {
+            A[i] = Integer.parseInt(st.nextToken());
         }
+
+        int[] result = solve(N, L, A);
+
+        for (int number : result) {
+            out.write(number + " ");
+        }
+        out.write('\n');
+
+        in.close();
+        out.close();
     }
 }
