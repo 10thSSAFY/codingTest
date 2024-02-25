@@ -2,16 +2,17 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Main {
-
+    static int n, x;
+    static int[] A;
     public static void main(String[] args) throws IOException {
 
-        int n = readInt();
-        int[] A = new int[n];
+        n = readInt();
+        A = new int[n];
         for (int i = 0; i < n; i++) {
             A[i] = readInt();
         }
         Arrays.sort(A);
-        int x = readInt();
+        x = readInt();
 
         int cnt = 0;
         int start = 0;
