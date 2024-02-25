@@ -31,9 +31,8 @@ public class Main {
     }
 
     private static int readInt() throws IOException {
-        int c;
         int n = System.in.read() - '0';
-        c = System.in.read();
+        int c = System.in.read();
         while (c > ' ') {
             n = 10 * n + c - '0';
             c = System.in.read();
