@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Stack;
-import java.util.StringTokenizer;
 
 public class Main {
 
@@ -10,8 +7,8 @@ public class Main {
     private static Stack<Assignment> myStack;
     static class Assignment {
 
-        private int score;
-        private int time;
+        private final int score;
+        private final int time;
 
         public Assignment(int score, int time) {
             this.score = score;
@@ -21,15 +18,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-
+        int N = readInt();
         myStack = new Stack<>();
-        StringTokenizer st;
 
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
-            int check = Integer.parseInt(st.nextToken());
+            int check = readInt();
 
             if (check == 0) {
                 if (myStack.isEmpty()) continue;
@@ -37,8 +30,8 @@ public class Main {
                 Assignment current = myStack.pop();
                 checkTime(current);
             } else {
-                int score = Integer.parseInt(st.nextToken());
-                int time = Integer.parseInt(st.nextToken());
+                int score = readInt();
+                int time = readInt();
 
                 checkTime(new Assignment(score, time));
             }
@@ -56,5 +49,18 @@ public class Main {
         } else {
             myStack.push(new Assignment(score, time - 1));
         }
+    }
+
+    private static int readInt() throws IOException {
+        int n = System.in.read() - '0';
+        int c = System.in.read();
+        while (c > ' ') {
+            n = 10 * n + c - '0';
+            c = System.in.read();
+        }
+        if (c == '\r') {
+            System.in.read();
+        }
+        return n;
     }
 }
