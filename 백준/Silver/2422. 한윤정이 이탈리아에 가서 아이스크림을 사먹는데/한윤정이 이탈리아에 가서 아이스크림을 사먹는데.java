@@ -26,13 +26,17 @@ public class Main {
     }
 
     private static int readInt() throws IOException {
-        int val = 0;
-        int c = System.in.read();
-        while (c <= ' ') {
+        int c;
+        int n = System.in.read() - '0';
+        c = System.in.read();
+        while (c > ' ') {
+            n = 10 * n + c - '0';
             c = System.in.read();
-        } do {
-            val = 10 * val + c - 48;
-        } while ((c = System.in.read()) >= 48 && c <= 57);
-        return val;
+        }
+        if (c == '\r') {
+            System.in.read();
+        }
+        return n;
+
     }
 }
