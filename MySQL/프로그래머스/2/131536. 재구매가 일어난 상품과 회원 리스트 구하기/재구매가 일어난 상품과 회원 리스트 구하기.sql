@@ -4,7 +4,10 @@ SELECT
 FROM
     online_sale
 GROUP BY
-    user_id, product_id
-    having count(product_id) > 1
+    user_id, 
+    product_id
+HAVING
+    COUNT(product_id) > 1
 ORDER BY
-    user_id, product_id desc;
+    user_id ASC, 
+    product_id DESC;
