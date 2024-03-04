@@ -5,4 +5,6 @@ SELECT
 FROM
     food_factory
 WHERE
-    address like "강원도%";
+    address like "강원도%"
+ORDER BY
+    factory_id ASC;
