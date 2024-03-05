@@ -1,25 +1,21 @@
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
 
-    static StringTokenizer st;
-    static int N, M;
     public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine());
+        int T = readInt();
 
         for (int i = 0; i < T; i++) {
-            st = new StringTokenizer(br.readLine());
-            N = Integer.parseInt(st.nextToken());
-            M = Integer.parseInt(st.nextToken());
+            int N = readInt();
+            int M = readInt();
 
-            st = new StringTokenizer(br.readLine());
             Queue<int[]> queue = new LinkedList<>();
 
             for (int j = 0; j < N; j++) {
-                int num = Integer.parseInt(st.nextToken());
+                int num = readInt();
                 queue.add(new int[]{j, num});
             }
 
@@ -45,5 +41,18 @@ public class Main {
 
             System.out.println(cnt);
         }
+    }
+
+    private static int readInt() throws IOException {
+        int n = System.in.read() - '0';
+        int c = System.in.read();
+        while (c > ' ') {
+            n = 10 * n + c - '0';
+            c = System.in.read();
+        }
+        if (c == '\r') {
+            System.in.read();
+        }
+        return n;
     }
 }
