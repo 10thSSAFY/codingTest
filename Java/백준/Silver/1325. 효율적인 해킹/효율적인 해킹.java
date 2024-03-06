@@ -1,68 +1,130 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.*;
 
 public class Main {
 
-    static boolean[] visited;
-    static ArrayList<Integer>[] list;
-    static int[] arr;
+    static class Reader {
+        BufferedReader br;
+        StringTokenizer st;
+        public Reader() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+        String rstr() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+        int rint() {return Integer.parseInt(rstr());}
+    }
+    static BufferedWriter br = new BufferedWriter(new OutputStreamWriter(System.out));
+    static ArrayList<Integer>[] gr;
+    static int[] ind, sid;
+    static ArrayDeque<Integer> ad;
+    static int cnt, snt, N;
+    static long[][] tar;
+    static boolean[] ist, isf;
+    static final int siz=164;
+    static TreeSet<Integer>[] g2;
+
     public static void main(String[] args) throws IOException {
-
-        int N = readInt();
-        int M = readInt();
-
-        list = new ArrayList[N + 1];
-        for (int i = 0; i <= N; i++) {
-            list[i] = new ArrayList<>();
+        Reader s=new Reader();
+        N = s.rint(); int m=s.rint();
+        init();
+        int[][] list=new int[m][2];
+        for(int i=0;i<m;i++){
+            int a=s.rint(), b=s.rint();
+            gr[b].add(a);
+            list[i][0]=b; list[i][1]=a;
         }
-
-        arr = new int[N + 1];
-        for (int i = 0; i < M; i++) {
-            int a = readInt();
-            int b = readInt();
-            list[a].add(b);
-        }
-
         for (int i = 1; i <= N; i++) {
-            visited = new boolean[N + 1];
-            visited[i] = true;
+            if (ind[i] == -1) tam(i);
+        }
+        gr=null;
+        g2=new TreeSet[snt];
+        for (int i = 0; i < snt; i++) {
+            g2[i] = new TreeSet();
+        }
+        ist=new boolean [snt];
+        isf=new boolean [snt];
+        tar=new long[snt][siz];
+        for (int i = 1; i <= N; i++) {
+            tar[sid[i]][i / 62] |= 1L << (i % 62);
+        }
+        for (int i = 0; i < m; i++) {
+            int a = sid[list[i][0]], b = sid[list[i][1]];
+            if (a == b) continue;
+            isf[b] = true;
+            g2[a].add(b);
+        }
+        int max=0;
+        int[] gae=new int[snt];
+        for(int i=0;i<snt;i++){
+            if(isf[i]) continue;
             dfs(i);
+            int c=0;
+            for(int j=0;j<siz;j++) c+=Long.bitCount(tar[i][j]);
+            max=Math.max(max, c);
+            gae[i]=c;
         }
-
-        int max = 0;
         for (int i = 1; i <= N; i++) {
-            max = Math.max(arr[i], max);
+            if (gae[sid[i]] == max) wis(i);
         }
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i <= N; i++) {
-            if (arr[i] == max) {
-                sb.append(i + " ");
-            }
-        }
-        System.out.println(sb);
+        br.flush();
+        br.close();
     }
 
-    private static void dfs(int n) {
-        for (int lst : list[n]) {
-            if (!visited[lst]) {
-                arr[lst]++;
-                visited[lst] = true;
-                dfs(lst);
+    static void dfs(int i) {
+        ist[i]=true;
+        for(int c: g2[i]){
+            if(!ist[c]) dfs(c);
+            for (int a = 0; a < siz; a++) {
+                tar[i][a] |= tar[c][a];
             }
         }
     }
 
-    private static int readInt() throws IOException {
-        int n = System.in.read() - '0';
-        int c = System.in.read();
-        while (c > ' ') {
-            n = 10 * n + c - '0';
-            c = System.in.read();
+    static void init() {
+        gr=new ArrayList[N+1];
+        for (int i = 0; i <= N; i++) {
+            gr[i] = new ArrayList<>();
         }
-        if (c == '\r') {
-            System.in.read();
+        sid=new int[N+1]; ind=new int[N+1];
+        Arrays.fill(sid, -1); Arrays.fill(ind, -1);
+        cnt=snt=0;
+        ad=new ArrayDeque<>();
+    }
+
+    static int tam(int i){
+        int mv=ind[i]=cnt++;
+        ad.add(i);
+        for(int c: gr[i]){
+            if (ind[c] == -1) {
+                mv = Math.min(mv, tam(c));
+            } else if (sid[c] == -1) {
+                mv = Math.min(mv, ind[c]);
+            }
         }
-        return n;
+        if (mv == ind[i]) {
+            while (true) {
+                int te = ad.pollLast();
+                sid[te] = snt;
+                if (te == i) break;
+            }
+            snt++;
+        }
+        return mv;
+    }
+
+    static void wis(long i) throws IOException {
+        br.write(i+" ");
     }
 }
