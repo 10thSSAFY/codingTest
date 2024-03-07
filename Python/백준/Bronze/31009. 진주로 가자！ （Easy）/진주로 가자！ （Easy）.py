@@ -1,14 +1,14 @@
+import sys
+input = sys.stdin.readline
+
 N = int(input())
+lst = [0] * 1001
 
-jinju = ''
-money = 0
-lst = []
-for _ in range(N):
-    D, C = map(str, input().split())
-    lst.append(int(C))
-    if D == 'jinju':
-        print(C)
-        money = int(C)
+for i in range(N):
+    a, b = input().split()
+    lst[int(b)] += 1
+    if a == "jinju":
+        m = int(b)
 
-lst.sort()
-print(len(lst) - lst.index(money) - 1 - (lst.count(money) - 1))
+print(m)
+print(sum(lst[m+1:]))
