@@ -10,6 +10,8 @@ def main():
     res = 2147483647
     for D in arr[1]:
         for I in arr[2]:
+            if res <= D+I:
+                continue
             S = 0
             cnt = 0
             for i in range(N):
@@ -18,6 +20,8 @@ def main():
                    S = arr[0][i]
                    if cnt == M:
                        break
+                if N-i < M-cnt:
+                    break
             if cnt == M:
                 res = min(res, S + D + I)
 
