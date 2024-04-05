@@ -1,20 +1,24 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
+
     static int R, C;
     static char[][] arr;
     static boolean[] visited = new boolean[26];
     static int answer = 1;
+    static StringTokenizer st;
+    public static void main(String[] args) throws Exception {
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        R = sc.nextInt();
-        C = sc.nextInt();
-        sc.nextLine();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        st = new StringTokenizer(br.readLine());
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
 
         arr = new char[R][C];
         for (int i = 0; i < R; i++) {
-            String line = sc.nextLine();
+            String line = br.readLine();
             for (int j = 0; j < C; j++) {
                 arr[i][j] = line.charAt(j);
             }
