@@ -1,4 +1,8 @@
+import sys
+input = sys.stdin.readline
+
 H, W, X, Y = map(int, input().split())
+
 arrB = [list(map(int, input().split())) for _ in range(H + X)]
 for r in range(H):
     for c in range(W):
