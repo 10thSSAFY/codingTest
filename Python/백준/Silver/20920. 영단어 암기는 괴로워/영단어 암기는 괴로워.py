@@ -3,20 +3,23 @@ input = sys.stdin.readline
 
 def main():
     N, M = map(int, input().split())
-    words = dict()
 
+    words = {}
     for _ in range(N):
-        word = input().strip()
+        word = input().rstrip()
         if len(word) < M:
             continue
-        if word not in words:
-            words[word] = 1
-        else:
+
+        if word in words:
             words[word] += 1
+        else:
+            words[word] = 1
 
-    word_list = sorted(words.items(), key=lambda x : (-x[1], -len(x[0]), x[0]))
+    word_list = list(words.keys())
+    word_list.sort()
+    word_list.sort(key=len, reverse=True)
+    word_list.sort(key=lambda x: words[x], reverse=True)
 
-    for w in word_list:
-        print(w[0])
+    print('\n'.join(word_list))
 
 main()
