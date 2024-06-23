@@ -12,8 +12,8 @@ class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        int[] dist = new int[N - 1];
-        int[] cost = new int[N];
+        long[] dist = new long[N - 1];
+        long[] cost = new long[N];
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N - 1; i++) {
@@ -25,8 +25,8 @@ class Main {
             cost[i] = Integer.parseInt(st.nextToken());
         }
 
-        int sum = 0;
-        int minCost = cost[0];
+        long sum = 0;
+        long minCost = cost[0];
 
         for (int i = 0; i < N - 1; i++) {
             if (cost[i] < minCost) {
