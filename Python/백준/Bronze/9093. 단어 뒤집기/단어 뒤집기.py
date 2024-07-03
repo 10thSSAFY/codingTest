@@ -1,7 +1,12 @@
-n = int(input())
+import sys
+input = sys.stdin.readline
 
-for i in range(n):
-    s = list(input().split())
-    for j in s:
-        print(j[::-1], end=" ")
+T = int(input())
+for _ in range(T):
+    lst = list(input().split())
+    for l in lst:
+        n = len(l)
+        for i in range(n-1, -1, -1):
+            print(l[i], end='')
+        print(' ', end='')
     print()
