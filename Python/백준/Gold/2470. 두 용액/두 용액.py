@@ -1,25 +1,22 @@
 N = int(input())
-solution = sorted(list(map(int, input().split())))
+lst = sorted(list(map(int, input().split())))
 
 start, end = 0, N - 1
-ans = abs(solution[start] + solution[end])
-final = [solution[start], solution[end]]
+ans = abs(lst[start] + lst[end])
+left, right = lst[start], lst[end]
 
 while start < end:
-    left = solution[start]
-    right = solution[end]
+    currSum = lst[start] + lst[end]
 
-    sum = left + right
-
-    if abs(sum) < ans:
-        ans = abs(sum)
-        final = [left, right]
+    if abs(currSum) < ans:
+        ans = abs(currSum)
+        left, right = lst[start], lst[end]
         if ans == 0:
             break
 
-    if sum < 0:
+    if currSum < 0:
         start += 1
     else:
         end -= 1
 
-print(final[0], final[1])
+print(left, right)
