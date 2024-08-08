@@ -1,12 +1,8 @@
 N = int(input())
-dp = [1] * 10
-tmp = [0] * 10
+dp = [[1] * 10 for _ in range(N)]
 
-for _ in range(1, N):
-    for i in range(10):
-        tmp[i] = sum(dp[i : 10])
-    for i in range(10):
-        dp[i] += tmp[i]
-    dp = tmp[:]
+for i in range(1, N):
+    for j in range(10):
+        dp[i][j] = sum(dp[i-1][j:10]) % 10007
 
-print(sum(dp) % 10007)
+print(sum(dp[N - 1]) % 10007)
