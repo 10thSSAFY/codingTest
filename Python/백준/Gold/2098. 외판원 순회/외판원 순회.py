@@ -10,7 +10,7 @@ def solution(node, visited):
 
     res = float('inf')
     for i in range(1, N):
-        if not W[node][i] or visited & (1 << i - 1):
+        if not W[node][i] or visited & (1 << (i - 1)):
             continue
         cost = W[node][i] + solution(i, visited | (1 << (i - 1)))
         res = min(res, cost)
@@ -21,6 +21,7 @@ def solution(node, visited):
 N = int(input())
 W = [list(map(int, input().split())) for _ in range(N)]
 
-dp = [[0 for _ in range(1 << N - 1)] for _ in range(N)]
+dp = [[0] * (1 << (N - 1)) for _ in range(N)]
 result = solution(0, 0)
+
 print(result)
