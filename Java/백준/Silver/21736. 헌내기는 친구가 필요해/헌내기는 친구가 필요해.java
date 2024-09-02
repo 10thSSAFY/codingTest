@@ -7,18 +7,8 @@ public class Main{
     static int N, M, result;
     static int[][] arr;
     static boolean[][] visited;
-    static point iPos;
     static int[] dr = {-1, 0, 1, 0};
     static int[] dc = {0, 1, 0, -1};
-
-    static class point {
-        int r, c;
-
-        public point(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
-    }
 
     public static void main(String[] args) throws Exception {
 
@@ -30,6 +20,7 @@ public class Main{
 
         arr = new int[N][M];
         visited = new boolean[N][M];
+        Queue<int[]> q = new LinkedList<>();
 
         for (int r = 0; r < N; r++) {
             String S = br.readLine();
@@ -38,26 +29,25 @@ public class Main{
                 arr[r][c] = S.charAt(c);
 
                 if (arr[r][c] == 'I') {
-                    iPos = new point(r, c);
+                    q.add(new int[] {r, c});
+                    visited[r][c] = true;
                 }
             }
         }
 
-        Queue<point> q = new LinkedList<>();
-        q.add(iPos);
-        visited[iPos.r][iPos.c] = true;
         result = 0;
 
         while (!q.isEmpty()) {
-            point nPos = q.poll();
+            int[] nPos = q.poll();
+            int r = nPos[0], c = nPos[1];
 
-            if (arr[nPos.r][nPos.c] == 'P') {
+            if (arr[r][c] == 'P') {
                 result++;
             }
 
             for (int d = 0; d < 4; d++) {
-                int nr = nPos.r + dr[d];
-                int nc = nPos.c + dc[d];
+                int nr = r + dr[d];
+                int nc = c + dc[d];
 
                 if (nr < 0 || N <= nr || nc < 0 || M <= nc || visited[nr][nc]) {
                     continue;
@@ -67,7 +57,7 @@ public class Main{
                     continue;
                 }
 
-                q.add(new point(nr, nc));
+                q.add(new int[] {nr, nc});
                 visited[nr][nc] = true;
             }
         }
