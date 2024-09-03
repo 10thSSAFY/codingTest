@@ -56,17 +56,18 @@ public class Main {
         while (!q.isEmpty()) {
             Node curr = q.poll();
 
-            if (curr.r == H - 1 && curr.c == W - 1) {
+            if (curr.r == H - 1 && curr.c == W - 1)
                 return curr.cnt;
-            }
 
             for (int d = 0; d < 4; d++) {
                 int nr = curr.r + dr[d];
                 int nc = curr.c + dc[d];
 
-                if (nr < 0 || H <= nr || nc < 0 || W <= nc || visited[nr][nc][curr.k] || A[nr][nc] == 1) {
+                if (nr < 0 || H <= nr || nc < 0 || W <= nc)
                     continue;
-                }
+                else if(visited[nr][nc][curr.k] || A[nr][nc] == 1)
+                    continue;
+
 
                 visited[nr][nc][curr.k] = true;
                 q.offer(new Node(nr, nc, curr.cnt + 1, curr.k));
@@ -77,9 +78,10 @@ public class Main {
                     int nr = curr.r + hdr[d];
                     int nc = curr.c + hdc[d];
 
-                    if (nr < 0 || H <= nr || nc < 0 || W <= nc || visited[nr][nc][curr.k - 1] || A[nr][nc] == 1) {
+                    if (nr < 0 || H <= nr || nc < 0 || W <= nc)
                         continue;
-                    }
+                    else if (visited[nr][nc][curr.k - 1] || A[nr][nc] == 1)
+                        continue;
 
                     visited[nr][nc][curr.k - 1] = true;
                     q.offer(new Node(nr, nc, curr.cnt + 1, curr.k - 1));
