@@ -1,46 +1,38 @@
-def check(R, C):
-    global win, flag, ans
-    color = arr[R][C]
+def solution():
+    global win, R, C
 
-    for d in D:
-        cnt = 1
-        for i in range(5):
-            nr, nc = R + d[i][0], C + d[i][1]
-            if not (0 <= nr < 19 and 0 <= nc < 19):
-                break
-            if arr[nr][nc] != color:
-                break
-            cnt += 1
+    for r in range(19):
+        for c in range(19):
+            if arr[r][c] != 0:
+                color = arr[r][c]
+                for dr, dc in D:
+                    cnt = 1
+                    nr, nc = r + dr, c + dc
 
-        if cnt == 5 and color != arr[R + d[5][0]][C + d[5][1]]:
-            flag = True
-            win = color
-            ans = (R, C)
-            return
+                    while True:
+                        if not (0 <= nr < 19 and 0 <= nc < 19) or arr[nr][nc] != color:
+                            break
+                        cnt += 1
+                        nr, nc = nr + dr, nc + dc
 
+                    if cnt == 5:
+                        if not (0 <= r - dr < 19 and 0 <= c - dc < 19 and arr[r - dr][c - dc] == color):
+                            win = color
+                            R, C = r + 1, c + 1
+                            return
 
-D = [((-1, 1), (-2, 2), (-3, 3), (-4, 4), (-5, 5), ( 1, -1)),
-     (( 1, 0), ( 2, 0), ( 3, 0), ( 4, 0), ( 5, 0), (-1,  0)),
-     (( 1, 1), ( 2, 2), ( 3, 3), ( 4, 4), ( 5, 5), (-1, -1)),
-     (( 0, 1), ( 0, 2), ( 0, 3), ( 0, 4), ( 0, 5), ( 0, -1))]
 
 arr = [list(map(int, input().split())) for _ in range(19)]
 
-win = False
-ans = (-1, -1)
-flag = False
+D = [(-1, 1), (0, 1), (1, 1), (1, 0)]
 
-for r in range(19):
-    for c in range(19):
-        if arr[r][c] != 0:
-            check(r, c)
-        if flag:
-            break
-    if flag:
-        break
+win = False
+R, C = 0, 0
+
+solution()
 
 if win:
     print(win)
-    print(ans[0] + 1, ans[1] + 1)
+    print(R, C)
 else:
     print(0)
