@@ -3,13 +3,10 @@ N = int(input())
 nums = [0] * 10
 curr = 0
 num = N
-while num > 9:
+while num:
     curr += num % 10
     nums[num % 10] += 1
     num //= 10
-
-curr += num
-nums[num] += 1
 
 result = ''
 if curr % 3 or not nums[0]:
