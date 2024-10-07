@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.*;
 
 public class Main {
 
@@ -9,16 +8,17 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
-        int[] arr = new int[N];
+        int[] cnt = new int[10001];
 
         for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
+            cnt[Integer.parseInt(br.readLine())]++;
         }
 
-        Arrays.sort(arr);
-
-        for (int i = 0; i < N; i++) {
-            sb.append(arr[i]).append('\n');
+        for (int i = 1; i < 10001; i++) {
+            while (cnt[i] > 0) {
+                sb.append(i).append('\n');
+                cnt[i]--;
+            }
         }
 
         System.out.println(sb);
