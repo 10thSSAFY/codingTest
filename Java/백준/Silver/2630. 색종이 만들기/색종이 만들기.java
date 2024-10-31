@@ -26,32 +26,35 @@ public class Main {
     }
 
     static void solution(int r, int c, int size) {
+
         if (check(r, c, size)) {
+            if (arr[r][c] == 1) {
+                blue++;
+            } else {
+                white++;
+            }
             return;
         }
 
-        solution(r, c, size / 2);
-        solution(r + size / 2, c, size / 2);
-        solution(r, c + size / 2, size / 2);
-        solution(r + size / 2, c + size / 2, size / 2);
+        size /= 2;
+        solution(r, c, size);
+        solution(r + size, c, size);
+        solution(r, c + size, size);
+        solution(r + size, c + size, size);
     }
 
     static boolean check(int r, int c, int size) {
-        int cnt = 0;
+
+        int color = arr[r][c];
+
         for (int i = r; i < r + size; i++) {
             for (int j = c; j < c + size; j++) {
-                cnt += arr[i][j];
+                if (arr[i][j] != color) {
+                    return false;
+                }
             }
         }
 
-        if (cnt == 0) {
-            white++;
-            return true;
-        } else if (cnt == size * size) {
-            blue++;
-            return true;
-        }
-
-        return false;
+        return true;
     }
 }
