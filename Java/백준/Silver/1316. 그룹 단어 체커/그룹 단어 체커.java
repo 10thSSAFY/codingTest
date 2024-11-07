@@ -1,38 +1,42 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.HashSet;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
+    static int result;
     public static void main(String[] args) throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         int N = Integer.parseInt(br.readLine());
-        char tmp = '?';
-        int cnt = 0;
+
+        result = 0;
         for (int i = 0; i < N; i++) {
-            String word = br.readLine();
-            int len = word.length();
-            HashSet<Character> chars = new HashSet<>();
-            boolean res = true;
-            for (int j = 0; j < len; j++) {
-                Character newChar = word.charAt(j);
-                if (!chars.contains(newChar)) {
-                    chars.add(newChar);
-                    tmp = newChar;
-                    continue;
-                } else if (tmp == newChar) {
-                    continue;
+            String S = br.readLine();
+            solution(S);
+        }
+
+        System.out.println(result);
+    }
+
+    public static void solution(String S) {
+        Set<Character> set = new HashSet<>();
+        char C = S.charAt(0);
+        set.add(C);
+
+        for (int i = 1; i < S.length(); i++) {
+            char newC = S.charAt(i);
+            if (newC == C) {
+                continue;
+            } else {
+                if (!set.contains(newC)) {
+                    set.add(newC);
+                    C = newC;
                 } else {
-                    res = false;
-                    break;
+                    return;
                 }
             }
-            if (res) {
-                cnt += 1;
-            }
         }
-        System.out.println(cnt);
+
+        result++;
     }
 }
