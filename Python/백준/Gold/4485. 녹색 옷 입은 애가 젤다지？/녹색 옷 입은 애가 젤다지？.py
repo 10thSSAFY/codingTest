@@ -2,36 +2,34 @@ import heapq
 import sys
 input = sys.stdin.readline
 
-dr = [0, 1, -1, 0]
-dc = [1, 0, 0, -1]
+dr = [-1, 0, 1, 0]
+dc = [0, 1, 0, -1]
 
 cnt = 0
 while True:
-    n = int(input())
-
-    if n == 0:
+    N = int(input())
+    if N == 0:
         break
 
     cnt += 1
-    board = [list(map(int, input().split())) for _ in range(n)]
-    heap = []
-    dist = [[1e9] * n for _ in range(n)]
-    dist[0][0] = board[0][0]
-    heapq.heappush(heap, (board[0][0], 0, 0))
+    arr = [list(map(int, input().split())) for _ in range(N)]
+    dist = [[float('inf')] * N for _ in range(N)]
 
-    while heap:
-        distance, r, c = heapq.heappop(heap)
+    dist[0][0] = arr[0][0]
+    hq = []
+    heapq.heappush(hq, (arr[0][0], 0, 0))
 
-        if r == n - 1 and c == n - 1:
-            print("Problem", str(cnt) + ":", distance)
+    while hq:
+        d, r, c = heapq.heappop(hq)
+        if (r, c) == (N - 1, N - 1):
+            print(f'Problem {cnt}: {dist[r][c]}')
             break
 
         for i in range(4):
-            nr = r + dr[i]
-            nc = c + dc[i]
+            nr, nc = r + dr[i], c + dc[i]
+            if not (0 <= nr < N and 0 <= nc < N):
+                continue
 
-            if 0 <= nr < n and 0 <= nc < n:
-                cost = distance + board[nr][nc]
-                if dist[nr][nc] > cost:
-                    dist[nr][nc] = distance + board[nr][nc]
-                    heapq.heappush(heap, (distance + board[nr][nc], nr, nc))
+            if dist[nr][nc] > dist[r][c] + arr[nr][nc]:
+                dist[nr][nc] = dist[r][c] + arr[nr][nc]
+                heapq.heappush(hq, (dist[nr][nc], nr, nc))
