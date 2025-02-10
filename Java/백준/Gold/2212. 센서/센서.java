@@ -1,45 +1,35 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
+    static int N, K;
+    static int[] sensors;
     public static void main(String[] args) throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-        int M = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
+        K = Integer.parseInt(br.readLine());
+        sensors = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        Arrays.sort(sensors);
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < N; i++) {
-            list.add(Integer.parseInt(st.nextToken()));
-        }
-        Collections.sort(list);
-
-        ArrayList<Integer> subList = new ArrayList<>();
-        for (int i = 1; i < N; i++) {
-            subList.add(list.get(i) - list.get(i - 1));
-        }
-        Collections.sort(subList);
-
-        int result = Solution(subList, N, M);
-        System.out.println(result);
+        System.out.println(solution());
     }
 
-    private static int Solution(ArrayList<Integer> subList, int N, int M) {
-        if (N <= M) {
-            return 0;
+
+    public static int solution() {
+
+        ArrayList<Integer> distances = new ArrayList<>();
+        for (int i = 1; i < N; i++) {
+            distances.add(sensors[i] - sensors[i-1]);
         }
-        for (int i = 2; i <= M; i++) {
-            subList.remove(N - i);
+        Collections.sort(distances);
+
+        int result = sensors[N - 1] - sensors[0];
+        for (int i = 0; i < Math.min(K - 1, N - 1); i++) {
+            result -= distances.get(distances.size() - i - 1);
         }
-        int result = 0;
-        for (int r : subList) {
-            result += r;
-        }
-        return result;
+
+        return Math.max(0, result);
     }
 }
