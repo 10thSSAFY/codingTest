@@ -1,6 +1,4 @@
 def solution(n):
     word = ['수', '박']
-    answer = ''
-    for i in range(n):
-        answer += word[i % 2]
+    answer = ''.join(word[i % 2] for i in range(n))
     return answer
