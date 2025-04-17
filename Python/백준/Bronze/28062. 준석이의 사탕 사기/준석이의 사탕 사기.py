@@ -1,18 +1,13 @@
 N = int(input())
 A = list(map(int, input().split()))
 
-result = 0
-odd = 0
 min_odd = 1001
 for i in range(N):
-    num = A[i]
-    result += num
+    if A[i] % 2 == 1:
+        min_odd = min(min_odd, A[i])
 
-    if num % 2 == 1:
-        odd = (odd + 1) % 2
-        min_odd = min(min_odd, num)
-
-if odd == 1:
+result = sum(A)
+if result % 2 == 1:
     result -= min_odd
 
 print(result)
